@@ -1,22 +1,46 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const AppWidget(title: "Fluterando StatelessWidget"));
+  runApp(const AppWidget());
 }
 
 class AppWidget extends StatelessWidget {
-  final String title;
+  //final String title;
+  const AppWidget({super.key});
 
-  const AppWidget({super.key, required this.title});
-  
   @override
   Widget build(BuildContext context) {
-    return Center(
-          child: Text(
-            title,
-            textDirection: TextDirection.ltr,
-            style: const TextStyle(color: Colors.white, fontSize: 30.0),
-      ),
+    return MaterialApp(
+      theme: ThemeData.light(),
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+  @override
+  State<StatefulWidget> createState() {
+    return HomePageState();
+  }
+}
+
+class HomePageState extends State<StatefulWidget> {
+  int count = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+          child: GestureDetector(
+        child: Text('Flutterando $count'),
+        onTap: () {
+          print('clickado');
+          setState(() {
+            ++count;
+          });
+        },
+      )),
     );
   }
 }
