@@ -17,13 +17,18 @@ class HomePageState extends State<StatefulWidget> {
       appBar: AppBar(
         title: const Text('Home Page'),
       ),
-      body: Center(
-          child: GestureDetector(
-            child: Text(
-            'Flutterando $count',
-            style: const TextStyle(fontSize: 25),
-          )
-        )
+      body: Container(
+        height: 200,
+        width: 200,
+        color: Colors.teal,
+        child: Align(
+            alignment: Alignment.center,
+            child: Container(
+            width: 100,
+            height: 100,
+            color: Colors.amber,
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
