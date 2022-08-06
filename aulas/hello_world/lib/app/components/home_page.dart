@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<StatefulWidget> {
   int count = 0;
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,23 +21,92 @@ class HomePageState extends State<StatefulWidget> {
           CustonSwitcher(),
           ],
       ),
-      body: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: Center(
-          child: Container(
-          width: 200,
-          color: const Color.fromARGB(255, 9, 94, 163),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            //crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Contador: $count'),
-              const CustonSwitcher(),
-            ],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+          //width: double.infinity,
+          height: 110,
+          child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                Container(
+                  width: 100.0,
+                  height: 100,
+                  color: Colors.red,
+                ),
+                Container(
+                  width: 100,
+                  height: 100,
+                  color:const Color.fromARGB(255, 7, 87, 48),
+                ),
+                Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.greenAccent,
+                ),
+                Container(
+                  width: 100,
+                  height: 100,
+                  color: Color.fromARGB(255, 9, 67, 153),
+                ),
+                Container(
+                  width: 100,
+                  height: 100,
+                  color: Color.fromARGB(139, 105, 240, 175),
+                ),
+              ],
+            )
+          ),
+        Container(
+          //width: double.infinity,
+          height: 110,
+          child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                Container(
+                  width: 100.0,
+                  height: 100,
+                  color: Colors.red,
+                ),
+                Container(
+                  width: 100,
+                  height: 100,
+                  color:const Color.fromARGB(255, 7, 87, 48),
+                ),
+                Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.greenAccent,
+                ),
+              ],
           ),
         ),
-        )
+        Container(
+          //width: double.infinity,
+          height: 110,
+          child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                Container(
+                  width: 100.0,
+                  height: 100,
+                  color: Colors.red,
+                ),
+                Container(
+                  width: 100,
+                  height: 100,
+                  color:const Color.fromARGB(255, 7, 87, 48),
+                ),
+                Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.greenAccent,
+                ),
+              ],
+            )
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
@@ -50,5 +119,3 @@ class HomePageState extends State<StatefulWidget> {
     );
   }
 }
-
-
