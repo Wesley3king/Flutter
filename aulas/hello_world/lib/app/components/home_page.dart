@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/app/components/theme_switcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,24 +17,31 @@ class HomePageState extends State<StatefulWidget> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Page'),
+        actions: const [
+          CustonSwitcher(),
+          ],
       ),
-      body: Container(
-        height: 200,
-        width: 200,
-        color: Colors.teal,
-        child: Align(
-            alignment: Alignment.center,
-            child: Container(
-            width: 100,
-            height: 100,
-            color: Colors.amber,
+      body: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: Center(
+          child: Container(
+          width: 200,
+          color: const Color.fromARGB(255, 9, 94, 163),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            //crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Contador: $count'),
+              const CustonSwitcher(),
+            ],
           ),
         ),
+        )
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          print('clickado');
           setState(() {
             ++count;
           });
@@ -42,3 +50,5 @@ class HomePageState extends State<StatefulWidget> {
     );
   }
 }
+
+
