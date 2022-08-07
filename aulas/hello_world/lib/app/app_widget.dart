@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hello_world/app/components/app_controler.dart';
 
 import 'components/home_page.dart';
+import 'components/login_page.dart';
 
 class AppWidget extends StatelessWidget {
   //final String title;
@@ -9,15 +10,23 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        animation: AppControler.instance,
-        builder: (context, child) {
-          return MaterialApp(
+    return MaterialApp(
             theme: ThemeData(
                 primarySwatch: Colors.green,
-                brightness: AppControler.instance.isDarkTheme ? Brightness.dark : Brightness.light),
+                brightness: Brightness.light
+              ),
             home: const HomePage(),
           );
-        });
   }
 }
+
+// AnimatedBuilder(
+//         animation: AppControler.instance,
+//         builder: (context, child) {
+//           return MaterialApp(
+//             theme: ThemeData(
+//                 primarySwatch: Colors.green,
+//                 brightness: AppControler.instance.isDarkTheme ? Brightness.dark : Brightness.light),
+//             home: const HomePage(),
+//           );
+//         });
