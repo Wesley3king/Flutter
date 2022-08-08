@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/app/components/home_page.dart';
 
 class MyWidgetHome extends StatefulWidget {
   const MyWidgetHome({Key? key}) : super(key: key);
@@ -13,38 +14,38 @@ class _MyWidgetState extends State<MyWidgetHome> {
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextField(
-                  // aqui recebemos o valor do input
-                  onChanged: (value) {
-                    print(value);
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(), labelText: 'Email'),
-                ),
-                const SizedBox(height: 10),
-                const TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(), labelText: 'texto'),
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                    onPressed: () {
-                      print('ok this is ok');
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextField(
+                    // aqui recebemos o valor do input
+                    onChanged: (value) {
+                      print(value);
                     },
-                    child: const Text('login')),
-              ],
-            ),
-          )),
-        ),
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(), labelText: 'Email'),
+                  ),
+                  const SizedBox(height: 10),
+                  const TextField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(), labelText: 'texto'),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const HomePage()));
+                      },
+                      child: const Text('login')),
+                ],
+              ),
+            )),
+      ),
     );
   }
 }

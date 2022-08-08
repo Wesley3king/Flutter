@@ -10,23 +10,17 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return AnimatedBuilder(
+        animation: AppControler.instance,
+        builder: (context, child) {
+          return MaterialApp(
             theme: ThemeData(
                 primarySwatch: Colors.green,
-                brightness: Brightness.light
-              ),
-            home: const HomePage(),
+                brightness: AppControler.instance.isDarkTheme ? Brightness.dark : Brightness.light),
+            home: const MyWidgetHome(),
           );
+        });
   }
 }
 
-// AnimatedBuilder(
-//         animation: AppControler.instance,
-//         builder: (context, child) {
-//           return MaterialApp(
-//             theme: ThemeData(
-//                 primarySwatch: Colors.green,
-//                 brightness: AppControler.instance.isDarkTheme ? Brightness.dark : Brightness.light),
-//             home: const HomePage(),
-//           );
-//         });
+//
