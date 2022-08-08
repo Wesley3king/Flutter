@@ -9,10 +9,9 @@ class MyWidgetHome extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<MyWidgetHome> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
+
+  Widget _body() {
+    return SingleChildScrollView(
         child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -21,6 +20,13 @@ class _MyWidgetState extends State<MyWidgetHome> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+
+                  SizedBox(
+                    width: 360,
+                    height: 450,
+                    child: Image.asset('assets/imgs/konosuba.webp'),
+                    ),
+                  const SizedBox(height: 10),
                   TextField(
                     // aqui recebemos o valor do input
                     onChanged: (value) {
@@ -39,13 +45,30 @@ class _MyWidgetState extends State<MyWidgetHome> {
                   const SizedBox(height: 10),
                   ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const HomePage()));
+                        Navigator.of(context).pushNamed('/home');
                       },
                       child: const Text('login')),
                 ],
               ),
             )),
-      ),
+      );
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Image.asset('assets/imgs/konosuba.webp', fit: BoxFit.cover,),
+          ),
+          Container(
+            color: Colors.black.withOpacity(0.7),
+          ),
+          _body(),
+        ],
+      )
     );
   }
 }

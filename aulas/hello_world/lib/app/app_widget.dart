@@ -16,8 +16,13 @@ class AppWidget extends StatelessWidget {
           return MaterialApp(
             theme: ThemeData(
                 primarySwatch: Colors.green,
-                brightness: AppControler.instance.isDarkTheme ? Brightness.dark : Brightness.light),
-            home: const MyWidgetHome(),
+                brightness: AppControler.instance.isDarkTheme ? Brightness.dark : Brightness.light
+                ),
+            initialRoute: '/',
+            routes: {
+              '/': (context) => const MyWidgetHome(),
+              '/home': (context) => const HomePage(),
+            },
           );
         });
   }
