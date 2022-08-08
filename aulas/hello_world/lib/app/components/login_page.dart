@@ -26,28 +26,40 @@ class _MyWidgetState extends State<MyWidgetHome> {
                     height: 450,
                     child: Image.asset('assets/imgs/konosuba.webp'),
                     ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    // aqui recebemos o valor do input
-                    onChanged: (value) {
-                      print(value);
-                    },
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(), labelText: 'Email'),
-                  ),
-                  const SizedBox(height: 10),
-                  const TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(), labelText: 'texto'),
-                  ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/home');
-                      },
-                      child: const Text('login')),
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 9.0, right: 9.0, top: 11.0, bottom: 11.0),
+                        child: Column(
+                          children: [
+                          const SizedBox(height: 10),
+                          TextField(
+                            // aqui recebemos o valor do input
+                            onChanged: (value) {
+                              print(value);
+                            },
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(), labelText: 'Email'),
+                          ),
+                          const SizedBox(height: 10),
+                          const TextField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(), labelText: 'texto'),
+                          ),
+                          const SizedBox(height: 10),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pushReplacementNamed('/home');
+                            },
+                            style: ElevatedButton.styleFrom(primary: Colors.blue),
+                            child: const SizedBox(
+                              width: double.infinity,
+                              child: Text('login', textAlign: TextAlign.center,),)
+                          ) ,
+                        ]),
+                      ),
+                    ),
                 ],
               ),
             )),
