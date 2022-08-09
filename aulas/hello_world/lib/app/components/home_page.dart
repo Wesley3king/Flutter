@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/app/components/custom_drawer.dart';
 import 'package:hello_world/app/components/theme_switcher.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,39 +16,7 @@ class HomePageState extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: Column(
-          children: [
-            UserAccountsDrawerHeader(
-              accountEmail: const Text('king@mail.com'),
-              accountName: const Text('King of Shadows'),
-              currentAccountPicture: Image.network('https://mangayabu.top/wp-content/uploads/2022/08/c2889b835344be365935.jpg'),
-            ),
-
-            const SizedBox(
-              height: 10,
-            ),
-            ListTile(
-              textColor: Colors.green,
-              leading: const Icon(Icons.home),
-              title: const Text('Home'),
-              subtitle: const Text('initial page'),
-              onTap: () {
-                print('kkk');
-              },
-            ),
-            ListTile(
-              textColor: Colors.green,
-              leading: const Icon(Icons.arrow_back),
-              title: const Text('Logout'),
-              subtitle: const Text('go out'),
-              onTap: () {
-                Navigator.of(context).pushReplacementNamed('/');
-              },
-            )
-          ],
-        ),
-      ),
+      drawer: const CustomDrawer(),
       appBar: AppBar(
         title: const Text('Home Page'),
         actions: const [

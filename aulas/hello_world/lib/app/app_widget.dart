@@ -3,6 +3,7 @@ import 'package:hello_world/app/components/app_controler.dart';
 
 import 'components/home_page.dart';
 import 'components/login_page.dart';
+import 'components/scroll_test.dart';
 
 class AppWidget extends StatelessWidget {
   //final String title;
@@ -22,6 +23,7 @@ class AppWidget extends StatelessWidget {
             routes: {
               '/': (context) => const MyWidgetHome(),
               '/home': (context) => const HomePage(),
+              '/list': (context) => const ScrollWidget(),
             },
           );
         });
