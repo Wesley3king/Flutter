@@ -51,6 +51,14 @@ class _MyWidgetState extends State<CustomDrawer> {
             onTap: () {
               Navigator.of(context).pushNamed('/list');
             },
+          ),
+          ListTile(
+            leading: const Icon(Icons.key),
+            title: const Text('Desafio'),
+            subtitle: const Text('tela de login'),
+            onTap: () {
+              Navigator.of(context).pushNamed('/login');
+            },
           )
         ],
       ),

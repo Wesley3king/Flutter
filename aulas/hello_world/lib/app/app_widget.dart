@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hello_world/app/components/app_controler.dart';
+import 'package:hello_world/app/components/tela_login.dart';
 
 import 'components/home_page.dart';
 import 'components/login_page.dart';
@@ -24,6 +25,7 @@ class AppWidget extends StatelessWidget {
               '/': (context) => const MyWidgetHome(),
               '/home': (context) => const HomePage(),
               '/list': (context) => const ScrollWidget(),
+              '/login':(context) => const LoginDesafio(),
             },
           );
         });
