@@ -1,12 +1,12 @@
 class CurrencyModel {
-  final String? name;
-  final num? real;
-  final num? dolar;
-  final num? euro;
-  final num? bitcoin;
+  final String name;
+  final double real;
+  final double dolar;
+  final double euro;
+  final double bitcoin;
 
   CurrencyModel(
-      {this.name, this.real, this.dolar, this.euro, this.bitcoin});
+      {required this.name, required this.real, required this.dolar, required this.euro, required this.bitcoin});
 
   static List<CurrencyModel> getCurrencies() {
     return <CurrencyModel>[
