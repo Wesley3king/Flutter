@@ -2,7 +2,7 @@ import 'package:async_flutter/app/models/json_model.dart';
 import 'package:dio/dio.dart';
 
 class TodoRepository {
-  final dio = Dio();
+  final Dio dio = Dio();
   final _url = 'https://jsonplaceholder.typicode.com/todos';
 
   Future<List<TodoModel>?> fetchTodos() async {
@@ -10,7 +10,7 @@ class TodoRepository {
     try {
       response = await dio.get(_url);
       final List lista = response.data as List;
-      
+
       List<TodoModel> todos = [];
 
       for (var e in lista) {

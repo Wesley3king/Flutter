@@ -5,14 +5,16 @@ import 'package:chaleno/chaleno.dart';
 class DoScraping {
   Future<String> scraping() async {
     const String url = 'https://mangayabu.top/manga/wind-breaker/';
-    const String id = '#manga-info';
+    //const String id = '#manga-info'; // main
+    const String id = 'script'; //pages
     try {
       var parser =
           await Chaleno().load(url).timeout(const Duration(seconds: 8));
-      
+
       var result = parser?.querySelector(id).html;
 
-      var res = convert(result.toString());
+      var res = result;
+      print(res);
 
       return res.toString();
     } catch (e) {
@@ -28,7 +30,7 @@ class DoScraping {
     try {
       //var encode =  jsonEncode(corte2[0]);
       var decode = json.decode(corte2[0]);
-      print(decode);
+      //print(decode);
       resultado = decode;
     } catch (e) {
       print(e);
@@ -36,5 +38,30 @@ class DoScraping {
     }
 
     return resultado;
+  }
+
+  Map<String, dynamic> getPages(String html) {
+    return {};
+  }
+
+  Future<void> scrapingTeste() async {
+
+    // const String url = 'https://mangahost4.com/manga/eleceed-mh17010/43#1';
+
+    // const String id = 'script'; //pages
+    // try {
+    //   var parser =
+    //       await Chaleno().load(url).timeout(const Duration(seconds: 8));
+
+    //   var result = parser?.querySelector(id).html;
+
+    //   var res = result;
+    //   print(res);
+
+    //   return res.toString();
+    // } catch (e) {
+    //   print(e);
+    //   return '--failed to Scraping!';
+    // }
   }
 }
