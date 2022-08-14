@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:layouts/app/routes/bottom_bar.dart';
+import 'package:layouts/app/routes/fab_scroll.dart';
+import 'package:layouts/app/routes/hide_bottom_navigation.dart';
 import 'package:layouts/app/routes/login.dart';
 
 class MyApp extends StatelessWidget {
@@ -17,6 +19,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login':(context) => const LoginPage(),
         '/bottom':(context) => const MyBottomBar(),
+        '/fab':(context) => const MyFabScroll(),
+        '/hidebottom':(context) => const MyScrollBottomBar(),
       },
     );
   }

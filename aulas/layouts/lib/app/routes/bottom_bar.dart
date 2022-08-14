@@ -7,40 +7,78 @@ class MyBottomBar extends StatefulWidget {
   State<MyBottomBar> createState() => _MyBottomBarState();
 }
 
-class _MyBottomBarState extends State<MyBottomBar> {
+class _MyBottomBarState extends State<MyBottomBar>
+    with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('bottom bar'),
-        backgroundColor: Colors.blueAccent,
+      body: NestedScrollView(
+        floatHeaderSlivers: true,
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          const SliverAppBar(
+            title: Text('bottom bar'),
+            backgroundColor: Colors.blueAccent,
+            snap: true,
+            floating: true,
+          ),
+        ],
+        body: ListView.builder(
+          itemCount: 47,
+          itemBuilder: (context, index) => const ListTile(
+            title: Text('este é um item de lista'),
+          ),
+        ),
       ),
-      body: const Center(child: Text('Hey guys')),
       extendBody: true,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blueAccent,
-        onPressed: (){},
+        onPressed: () {
+          Navigator.of(context).pushReplacementNamed('/fab');
+        },
         child: const Icon(Icons.add),
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         color: Colors.blueAccent,
         child: IconTheme(
-          data: const IconThemeData(color: Colors.white,),
+          data: const IconThemeData(
+            color: Colors.white,
+          ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                IconButton(onPressed: () {}, icon: const Icon(Icons.home,)),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.local_library,)),
-                const SizedBox(width: 40,),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.sell_rounded,)),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.search,)),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.home,
+                    )),
+                IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacementNamed('/hidebottom');
+                    },
+                    icon: const Icon(
+                      Icons.local_library,
+                    )),
+                const SizedBox(
+                  width: 40,
+                ),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.sell_rounded,
+                    )),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.search,
+                    )),
               ],
             ),
-          ),),
+          ),
+        ),
       ),
     );
   }
