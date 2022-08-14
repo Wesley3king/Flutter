@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -104,10 +103,9 @@ class LoginPage extends StatelessWidget {
                           const Text(
                             'Login',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.white
-                            ),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.white),
                           ),
                           SizedBox(
                             width: 29,
@@ -128,9 +126,9 @@ class LoginPage extends StatelessWidget {
                   decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 23, 69, 150),
                     borderRadius: BorderRadius.all(
-                        Radius.circular(5),
-                      ),
+                      Radius.circular(5),
                     ),
+                  ),
                   child: SizedBox.expand(
                     child: TextButton(
                       child: Row(
@@ -139,10 +137,9 @@ class LoginPage extends StatelessWidget {
                           const Text(
                             'Login com Facebook',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.white
-                            ),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.white),
                           ),
                           SizedBox(
                             width: 29,
@@ -155,14 +152,20 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20,),
-                const Text('Cadastre-se', style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold
+                const SizedBox(
+                  height: 5,
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacementNamed('/bottom');
+                  },
+                  child: const Text(
+                    'Cadastre-se',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                  
-                  ),
+                ),
               ],
             )),
       ),
