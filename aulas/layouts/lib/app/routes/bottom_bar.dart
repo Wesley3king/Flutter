@@ -68,7 +68,9 @@ class _MyBottomBarState extends State<MyBottomBar>
                   width: 40,
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                       Navigator.of(context).pushReplacementNamed('/imagecache');
+                    },
                     icon: const Icon(
                       Icons.sell_rounded,
                     )),
