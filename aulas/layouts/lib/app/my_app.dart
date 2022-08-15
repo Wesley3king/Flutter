@@ -11,20 +11,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // serve para ver as imagems em modo profile
+    //debugInvertOversizedImages = true;
+
     return MaterialApp(
       title: 'Dog Life',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.deepOrange
-      ),
+      theme: ThemeData(primarySwatch: Colors.deepOrange),
       initialRoute: '/login',
       routes: {
-        '/login':(context) => const LoginPage(),
-        '/bottom':(context) => const MyBottomBar(),
-        '/fab':(context) => const MyFabScroll(),
-        '/hidebottom':(context) => const MyScrollBottomBar(),
-        '/imageauto':(context) => const MyImageAuto(),
-        '/imagecache':(context) => const MyImageCache(),
+        '/login': (context) => const LoginPage(),
+        '/bottom': (context) => const MyBottomBar(),
+        '/fab': (context) => const MyFabScroll(),
+        '/hidebottom': (context) => const MyScrollBottomBar(),
+        '/imageauto': (context) => const MyImageAuto(),
+        '/imagecache': (context) => const MyImageCache(),
       },
     );
   }

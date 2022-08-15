@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MyImageCache extends StatefulWidget {
@@ -32,8 +33,37 @@ class _MyImageCacheState extends State<MyImageCache> {
                 width: 100,
                 height: 110,
                 color: Colors.grey,
-                child: Image.network(
-                  imagens[index],
+                child: CachedNetworkImage(
+                  key: UniqueKey(),
+                  imageUrl: imagens[index],
+                  maxHeightDiskCache: 344,
+                  maxWidthDiskCache: 344,
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => const Center(
+                    child: Icon(Icons.error),
+                  ),
+                  placeholder: (context, url) => Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.grey[400],
+                      ),
+                    ),
+                )
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/*
+Image(
+                  image: CachedNetworkImageProvider(
+                    imagens[index],
+                    maxWidth: 344,
+                    maxHeight: 344,
+                  ),
                   loadingBuilder: (context, child, loadingProgress) {
                     // no loadingProgress temos o total de bytes, e o baixado, se estiver carregada é null
                     if (loadingProgress == null) {
@@ -48,11 +78,4 @@ class _MyImageCacheState extends State<MyImageCache> {
                   },
                   fit: BoxFit.cover,
                 ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+*/
