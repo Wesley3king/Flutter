@@ -51,7 +51,9 @@ class _MyBottomBarState extends State<MyBottomBar>
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushReplacementNamed('/imageauto');
+                    },
                     icon: const Icon(
                       Icons.home,
                     )),
