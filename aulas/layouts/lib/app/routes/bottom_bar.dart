@@ -75,7 +75,9 @@ class _MyBottomBarState extends State<MyBottomBar>
                       Icons.sell_rounded,
                     )),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushReplacementNamed('/download');
+                    },
                     icon: const Icon(
                       Icons.search,
                     )),

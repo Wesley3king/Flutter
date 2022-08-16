@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:layouts/app/routes/bottom_bar.dart';
+import 'package:layouts/app/routes/download_files.dart';
 import 'package:layouts/app/routes/fab_scroll.dart';
 import 'package:layouts/app/routes/hide_bottom_navigation.dart';
 import 'package:layouts/app/routes/image_auto.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         '/hidebottom': (context) => const MyScrollBottomBar(),
         '/imageauto': (context) => const MyImageAuto(),
         '/imagecache': (context) => const MyImageCache(),
+        '/download': (context) => const DownloadFiles(),
       },
     );
   }
