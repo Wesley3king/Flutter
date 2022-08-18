@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:temas/app/routes/home_page.dart';
+import 'package:provider/provider.dart';
+import 'package:temas/app/store/pomodoro.store.dart';
+
 
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
@@ -44,9 +47,14 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: theme,
-      home: const HomePage(),
+    return MultiProvider(
+      providers: [
+        Provider<PomodoroStore>(create: (_) => PomodoroStore()),
+      ],
+      child: MaterialApp(
+        theme: theme,
+        home: HomePage(),
+      ),
     );
   }
 }
