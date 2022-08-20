@@ -5,8 +5,8 @@ import 'package:temas/app/store/pomodoro.store.dart';
 class EntradaTempo extends StatelessWidget {
   final int valor;
   final String titulo;
-  final void Function() incremento;
-  final void Function() decremento;
+  final void Function()? incremento;
+  final void Function()? decremento;
 
   const EntradaTempo({
     super.key,
@@ -39,7 +39,7 @@ class EntradaTempo extends StatelessWidget {
                     shape: const CircleBorder(),
                     padding: const EdgeInsets.all(10),
                     backgroundColor: store.estaTrabalhando() ? Colors.red: Colors.blue,),
-                onPressed: () => incremento(),
+                onPressed: incremento,
                 child: const Icon(
                   Icons.arrow_upward,
                   color: Colors.white,
@@ -55,7 +55,7 @@ class EntradaTempo extends StatelessWidget {
                   shape: const CircleBorder(),
                   padding: const EdgeInsets.all(10),
                   backgroundColor: store.estaTrabalhando() ? Colors.red: Colors.blue),
-              onPressed: () => decremento(),
+              onPressed: decremento,
               child: const Icon(
                 Icons.arrow_downward,
                 color: Colors.white,
