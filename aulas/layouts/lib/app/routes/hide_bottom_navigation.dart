@@ -63,7 +63,9 @@ class _MyScrollBottomBarState extends State<MyScrollBottomBar>
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/bottomsheet');
+                        },
                         icon: const Icon(
                           Icons.home,
                         )),
