@@ -1,10 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-// import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
-import 'package:mj_image_slider/mj_image_slider.dart';
-import 'package:mj_image_slider/mj_options.dart';
-import 'package:slider_view/slider_view.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +11,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  PhotoViewController photoController = PhotoViewController();
+  PageController controllerPage = PageController();
   List<String> lista = [
     "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/00.jpg",
     "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/01.jpg",
@@ -34,36 +33,53 @@ class _HomePageState extends State<HomePage> {
     "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/16.jpg",
     "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/17.jpg",
   ];
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
+  Widget _loading() {
+    return const SizedBox(
       width: double.infinity,
-      child: InteractiveViewer(
-        maxScale: 4.0,
-        child: SliderView(
-          config: SliderViewConfig(
-            models: lista,
-            itemBuilder: (model) => Image.network(model),
-            scrollDirection: Axis.vertical
-          ),
-        )
+      height: 500,
+      child: Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        width: double.infinity,
+        child: PhotoViewGallery.builder(
+          itemCount: lista.length,
+          builder: (context, index) => PhotoViewGalleryPageOptions(
+            imageProvider: NetworkImage(lista[index]),
+            initialScale: PhotoViewComputedScale.contained,
+            // basePosition: Alignment.topCenter,
+
+            // controller: photoController,
+            //heroAttributes: PhotoViewHeroAttributes(tag: "page$index"),
+            // onTapDown: (context, details, controllerValue) {
+            //   print('to top');
+            //   photoController.scale = 1.0;
+            // },
+            onTapUp: (context, details, controllerValue) {
+              
+            },
+            // tightMode: true,
+          ),
+          onPageChanged: (index) => print('page: $index'),
+          // wantKeepAlive: true,
+          allowImplicitScrolling: true,
+          // enableRotation: true,
+          // gaplessPlayback: true,
+          // pageController: controllerPage,
+
+          // scrollDirection: Axis.vertical,
+        ));
+  }
 }// lista.map((e) => Image.network(e)).toList()
-/* carousel slider
-]CarouselSlider(
-            items: lista
-                .map((e) => IntrinsicHeight(
-                      child: SizedBox(width: double.infinity,child: Image(image: CachedNetworkImageProvider(e),)),
-                    ))
-                .toList(),
-            options: CarouselOptions(
-              scrollDirection: Axis.vertical,
-              enableInfiniteScroll: true,
-              initialPage: 0,
-              disableCenter: true,
-              pageSnapping: false,
-              onPageChanged: (index, reason) => print(index),
-              )),
-              */
+
+// photo view gallery
+/*
+PhotoView(
+          imageProvider: NetworkImage(lista[1]),
+        ),
+*/
