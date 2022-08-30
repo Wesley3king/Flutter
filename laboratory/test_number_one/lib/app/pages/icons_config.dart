@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:test_number_one/app/pages/teste_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,7 +11,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   PhotoViewController photoController = PhotoViewController();
   PageController controllerPage = PageController();
   List<String> lista = [
@@ -43,11 +45,53 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Future<Widget> _buildPhoto(String src) async {
+    var image = MyImage(imageProvider: NetworkImage(lista[0]));
+
+    return image;
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
         width: double.infinity,
-        child: PhotoViewGallery.builder(
+        child: ListView.builder(
+          itemCount: lista.length,
+          cacheExtent: 100.0,
+          addAutomaticKeepAlives: true,
+          itemBuilder: (context, index) => GestureDetector(
+            onTapUp: (details) => print('acionou: ${details} $index// '),
+            child: IntrinsicHeight(
+                child: Image.network(
+              lista[index],
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 500,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              },
+            )),
+          ),
+        ));
+  }
+}// lista.map((e) => Image.network(e)).toList()
+
+// photo view gallery
+/*
+PhotoView(
+          imageProvider: NetworkImage(lista[1]),
+        ),
+*/
+
+/* photo view builder
+PhotoViewGallery.builder(
           itemCount: lista.length,
           builder: (context, index) => PhotoViewGalleryPageOptions(
             imageProvider: NetworkImage(lista[index]),
@@ -73,13 +117,23 @@ class _HomePageState extends State<HomePage> {
           // pageController: controllerPage,
 
           // scrollDirection: Axis.vertical,
-        ));
-  }
-}// lista.map((e) => Image.network(e)).toList()
-
-// photo view gallery
-/*
-PhotoView(
-          imageProvider: NetworkImage(lista[1]),
-        ),
+        )
 */
+
+/*
+Image(
+                  image: CachedNetworkImageProvider(lista[index], errorListener: () => print('error listener cache'),),
+                  gaplessPlayback: true,
+                  
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+
+                      return child;
+                    }
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 500,
+                      child: const Center(child: CircularProgressIndicator()),
+                    );
+                  },
+                ),*/
