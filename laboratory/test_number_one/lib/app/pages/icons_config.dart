@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:test_number_one/app/pages/teste_widget.dart';
@@ -45,40 +46,49 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Future<Widget> _buildPhoto(String src) async {
-    var image = MyImage(imageProvider: NetworkImage(lista[0]));
-
-    return image;
+  List<Widget> _buildPhoto(List<String> list) {
+    List<GestureDetector> widgets = [];
+    for (int i = 0; i < list.length; ++i) {
+      widgets.add(
+        GestureDetector(
+          onTapUp: (details) => print('acionou: ${details} $i// '),
+          child: IntrinsicHeight(
+              child: Image.network(
+            lista[i],
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              //print(loadingProgress);
+              return SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 500,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            },
+          )),
+        ),
+      );
+    }
+    return widgets;
   }
 
   @override
   bool get wantKeepAlive => true;
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
         width: double.infinity,
-        child: ListView.builder(
-          itemCount: lista.length,
-          cacheExtent: 100.0,
+        child: ListView(
+          cacheExtent: 10000.0,
           addAutomaticKeepAlives: true,
-          itemBuilder: (context, index) => GestureDetector(
-            onTapUp: (details) => print('acionou: ${details} $index// '),
-            child: IntrinsicHeight(
-                child: Image.network(
-              lista[index],
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 500,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              },
-            )),
-          ),
+          children: _buildPhoto(lista),
         ));
   }
 }// lista.map((e) => Image.network(e)).toList()
