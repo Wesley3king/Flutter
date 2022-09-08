@@ -13,28 +13,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   PhotoViewController photoController = PhotoViewController();
   PageController controllerPage = PageController();
   List<String> lista = [
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/00.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/01.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/02.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/03.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/04.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/05.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/06.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/07.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/08.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/09.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/10.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/11.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/12.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/13.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/14.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/15.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/16.jpg",
-    "https://mangayabu.top/mangas2/wind-breaker/capitulo-399/17.jpg",
+    "https://mangayabu.top/mangas2/eleceed/capitulo-155/00.jpg",
+    "https://mangayabu.top/mangas2/eleceed/capitulo-155/01.jpg",
+    "https://mangayabu.top/mangas2/eleceed/capitulo-155/02.jpg",
+    "https://mangayabu.top/mangas2/eleceed/capitulo-155/03.jpg",
+    "https://mangayabu.top/mangas2/eleceed/capitulo-155/04.jpg",
+    "https://mangayabu.top/mangas2/eleceed/capitulo-155/05.jpg",
+    "https://mangayabu.top/mangas2/eleceed/capitulo-155/06.jpg",
+    "https://mangayabu.top/mangas2/eleceed/capitulo-155/07.jpg",
+    "https://mangayabu.top/mangas2/eleceed/capitulo-155/08.jpg",
+    "https://mangayabu.top/mangas2/eleceed/capitulo-155/09.jpg",
+    "https://mangayabu.top/mangas2/eleceed/capitulo-155/10.jpg",
+    "https://mangayabu.top/mangas2/eleceed/capitulo-155/11.jpg",
+    "https://mangayabu.top/mangas2/eleceed/capitulo-155/12.jpg",
+    "https://mangayabu.top/mangas2/eleceed/capitulo-155/13.jpg"
   ];
   Widget _loading() {
     return const SizedBox(
@@ -84,13 +80,29 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-    return SizedBox(
-        width: double.infinity,
-        child: ListView(
-          cacheExtent: 10000.0,
-          addAutomaticKeepAlives: true,
-          children: _buildPhoto(lista),
-        ));
+    return PhotoViewGallery.builder(
+      itemCount: lista.length,
+      builder: (context, index) => PhotoViewGalleryPageOptions(
+        imageProvider: NetworkImage(lista[index]), ),
+      onPageChanged: (index) => print('page: $index'),
+      wantKeepAlive: true,
+      loadingBuilder: (context, event) => Center(
+        child: Container(
+          width: 20.0,
+          height: 20.0,
+          child: CircularProgressIndicator(
+            value: event == null ? 0 : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
+          ),
+        ),
+      ),
+      scrollPhysics: ScrollPhysics(),
+      // allowImplicitScrolling: true,
+      // enableRotation: true,
+
+      gaplessPlayback: true,
+      // pageController: controllerPage,
+      scrollDirection: Axis.vertical,
+    );
   }
 }// lista.map((e) => Image.network(e)).toList()
 
@@ -100,6 +112,21 @@ PhotoView(
           imageProvider: NetworkImage(lista[1]),
         ),
 */
+/*
+Image.network(
+            lista[index],
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              //print(loadingProgress);
+              return SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 500,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            },
+          )*/
 
 /* photo view builder
 PhotoViewGallery.builder(
@@ -148,3 +175,28 @@ Image(
                     );
                   },
                 ),*/
+  /*
+  SizedBox(
+        width: double.infinity,
+        child: InteractiveViewer(
+          maxScale: 5.0,
+          clipBehavior: Clip.none,
+          child: ListView.builder(
+            cacheExtent: 10000.0,
+            itemCount: lista.length,
+            addAutomaticKeepAlives: true,
+            itemBuilder: (context, index) => IntrinsicHeight(
+                child: CachedNetworkImage(imageUrl: lista[index],
+                placeholder: (context, url) => const SizedBox(
+                  height: 500,
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+                
+                errorWidget: (context, url, error) => const SizedBox(
+                  height: 400,
+                  child: Text('Erro ao carregar!'),
+                ),
+                )),
+          //  children: _buildPhoto(lista),
+          ),
+        ));*/
