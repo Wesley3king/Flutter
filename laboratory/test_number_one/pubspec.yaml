@@ -43,6 +43,7 @@ dependencies:
   photo_view:
     path: ./lib/photo_view/
   flutter_launcher_icons: ^0.10.0
+  permission_handler: ^10.0.0
 
 dev_dependencies:
   flutter_test:

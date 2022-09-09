@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:async';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
 
 class MyPageView extends StatefulWidget {
@@ -24,15 +27,47 @@ class _MyPageViewState extends State<MyPageView> {
     "https://mangayabu.top/mangas2/eleceed/capitulo-155/12.jpg",
     "https://mangayabu.top/mangas2/eleceed/capitulo-155/13.jpg"
   ];
+  PermissionStatus _permissionStatus = PermissionStatus.denied;
+
+  Future verPermissao() async {
+    _permissionStatus = await Permission.storage.status;
+    print(_permissionStatus.isDenied ? "não TEM PERMISÃO" : "ta ok");
+    if (_permissionStatus != PermissionStatus.granted) {
+      PermissionStatus permissionStatus = await Permission.storage.request();
+      setState(() {
+        _permissionStatus = permissionStatus;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    verPermissao();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return PageView.builder(
+      itemCount: lista.length,
+      itemBuilder: (context, index) => ListView(
+
+        children: [
+          IntrinsicHeight(
+            child: MyPageImage(url: lista[index]),
+          )
+        ],
+      ),);
+  }
+  /*ListView.builder(
       itemCount: lista.length,
       cacheExtent: 10000.0,
       itemBuilder: (context, index) => MyPageImage(url: lista[index]),
-    );
-  }
+    )
+    
+    !(_permissionStatus == PermissionStatus.denied) ? Image.file(File("/storage/emulated/0/image.jpg")) : const Center(
+        child: Text("error", style: TextStyle(color: Colors.white),),
+      )*/
 }
 /*
 PageView.builder(
