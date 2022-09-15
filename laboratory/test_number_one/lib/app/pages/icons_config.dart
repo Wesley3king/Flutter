@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:test_number_one/app/pages/teste_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,8 +14,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
+// with AutomaticKeepAliveClientMixin, TickerProviderStateMixin
+class _HomePageState extends State<HomePage> {
   PhotoViewController photoController = PhotoViewController();
   PageController controllerPage = PageController();
   List<String> lista = [
@@ -69,8 +71,55 @@ class _HomePageState extends State<HomePage>
     return widgets;
   }
 
-  @override
-  bool get wantKeepAlive => true;
+  final ItemScrollController itemScrollController = ItemScrollController();
+  final ItemPositionsListener itemPositionsListener =
+      ItemPositionsListener.create();
+  Widget testePhoto(BuildContext context) {
+    return Focus(
+      autofocus: true,
+      child: ScrollablePositionedList.builder(
+        itemScrollController: itemScrollController,
+        itemPositionsListener: itemPositionsListener,
+        itemCount: lista.length,
+        itemBuilder: (context, index) {
+          // if (index == (lista.length - 1)) {
+          //   controller.markAsRead();
+          // }
+          Map<String, String>? headers = {};
+          // controller.localStorageService.baseAuthType == AuthType.basic
+          //     ? {
+          //         "Authorization":
+          //             controller.localStorageService.basicAuth,
+          //       }
+          //     : null;
+          return GestureDetector(
+            onTap: () => itemScrollController.scrollTo(
+        index: 3, duration: const Duration(milliseconds: 300)),
+            child: CachedNetworkImage(
+              fit: BoxFit.fitWidth,
+              imageUrl: lista[index],
+              httpHeaders: headers,
+              filterQuality: FilterQuality.medium,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  SizedBox(
+                // height: context.height * .7,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    value: downloadProgress.progress,
+                  ),
+                ),
+              ),
+              errorWidget: (context, url, error) => const SizedBox(
+                // height: context.height,
+                child: Center(child: Text("Error builder")),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -79,32 +128,9 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-    return PhotoViewGallery.builder(
-      itemCount: lista.length,
-      builder: (context, index) => PhotoViewGalleryPageOptions(
-        imageProvider: NetworkImage(lista[index]), ),
-      onPageChanged: (index) => print('page: $index'),
-      wantKeepAlive: true,
-      loadingBuilder: (context, event) => Center(
-        child: Container(
-          width: 20.0,
-          height: 20.0,
-          child: CircularProgressIndicator(
-            value: event == null ? 0 : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
-          ),
-        ),
-      ),
-      scrollPhysics: ScrollPhysics(),
-      // allowImplicitScrolling: true,
-      // enableRotation: true,
-
-      gaplessPlayback: true,
-      // pageController: controllerPage,
-      scrollDirection: Axis.vertical,
-    );
+    return testePhoto(context);
   }
-}// lista.map((e) => Image.network(e)).toList()
+} // lista.map((e) => Image.network(e)).toList()
 
 // photo view gallery
 /*
@@ -175,7 +201,7 @@ Image(
                     );
                   },
                 ),*/
-  /*
+/*
   SizedBox(
         width: double.infinity,
         child: InteractiveViewer(
@@ -200,3 +226,46 @@ Image(
           //  children: _buildPhoto(lista),
           ),
         ));*/
+/*
+PhotoViewGallery.builder(
+      itemCount: lista.length,
+      builder: (context, index) => PhotoViewGalleryPageOptions(
+        imageProvider: NetworkImage(lista[index]),
+      ),
+      onPageChanged: (index) => print('page: $index'),
+      wantKeepAlive: true,
+      loadingBuilder: (context, event) => Center(
+        child: Container(
+          width: 20.0,
+          height: 20.0,
+          child: CircularProgressIndicator(
+            value: event == null
+                ? 0
+                : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
+          ),
+        ),
+      ),
+      scrollPhysics: ScrollPhysics(),
+      // allowImplicitScrolling: true,
+      // enableRotation: true,
+
+      gaplessPlayback: true,
+      // pageController: controllerPage,
+      scrollDirection: Axis.vertical,
+    )
+    
+    // extendedImage
+
+    ListView.builder(
+      itemCount: lista.length,
+      itemBuilder: (context, index) => ExtendedImage.network(
+        lista[index],
+        //cache: false,
+         clearMemoryCacheWhenDispose: true,
+         maxBytes: 30,
+        compressionRatio: 0.9,
+        ),
+    )
+    
+    
+    */

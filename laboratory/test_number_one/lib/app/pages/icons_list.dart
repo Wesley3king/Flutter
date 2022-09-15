@@ -18,6 +18,6 @@ List<Widget> lista = const <Widget>[
   Icon(Icons.ramen_dining),
   Icon(Icons.remove_red_eye),
   Icon(Icons.edit),
-
+// flutter create --template=plugin --org com.example --platforms=android,ios -a java -i objc plugin_codelab
   
 ];
