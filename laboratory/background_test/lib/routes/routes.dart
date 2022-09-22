@@ -1,5 +1,7 @@
 
 import 'package:background_test/app/pages/background.dart';
+import 'package:background_test/app/pages/bottom_and_app_bar.dart';
+import 'package:background_test/app/pages/manage_archives.dart';
 import 'package:background_test/app/pages/reload.dart';
 import 'package:background_test/app/pages/request_permission.dart';
 import 'package:background_test/app/pages/second_plane.dart';
@@ -10,6 +12,8 @@ final routes = GoRouter(
     GoRoute(path: "/blockscreenonbackground", builder: (context, state) => const MyBackgroundTest(),),
     GoRoute(path: "/second", builder: (context, state) => const MySecondFunction(),),
     GoRoute(path: "/refresh", builder: (context, state) => const ReloadSpinner(),),
-    GoRoute(path: "/", builder: (context, state) => const PermissionHandler(),),
+    GoRoute(path: "/permission", builder: (context, state) => const PermissionHandler(),),
+    GoRoute(path: "/btapp", builder: (context, state) => const BottomNavigationAndAppBar(),),
+    GoRoute(path: "/", builder: (context, state) => const ManageArchives(),),
   ]
 );
