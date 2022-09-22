@@ -38,9 +38,18 @@ class _ManageArchivesState extends State<ManageArchives> {
     }
   }
 
+  void deleteDirectory() async {
+    try {
+      Directory dir = Directory("/storage/emulated/0/Manga Libray");
+      dir.delete(recursive: false).whenComplete(() => print("deletado!"));
+    } catch (e) {
+      debugPrint("erro no delete Directory: $e");
+    }
+  }
+
   void createFileBackup() async {
     try {
-      File file = File("/storage/emulated/0/Manga Libray/backup3.json");
+      File file = File("/storage/emulated/0/Manga Libray/backup5_bynary.bin");
       if (file.existsSync()) {
         debugPrint("este arquivo existe!");
       } else {
@@ -52,14 +61,27 @@ class _ManageArchivesState extends State<ManageArchives> {
         debugPrint("este arquivo não existe!");
         var resArchive = await file.create(recursive: false);
         debugPrint("archive: $resArchive");
-        // resArchive
-        //     .writeAsString(data.toString())
-        //     .whenComplete(() => debugPrint("file criada!"));
-        // var bytes = BytesBuilder();
-        // bytes.toBytes()
+
+        var jsonData = json.encode(data);
+        var bynary = utf8.encode(jsonData);
+        resArchive
+            .writeAsBytes(bynary)
+            .whenComplete(() => debugPrint("file escrita!"));
       }
     } catch (e) {
       debugPrint("erro no createFile: $e");
+    }
+  }
+
+  void readArchive() async {
+    try {
+      File file = File("/storage/emulated/0/Manga Libray/backup5_bynary.bin");
+      var bin = await file.readAsBytes();
+      print(bin);
+      var data = utf8.decode(bin);
+      print(data);
+    } catch (e) {
+      debugPrint("erro no readArchive: $e");
     }
   }
 
@@ -75,9 +97,24 @@ class _ManageArchivesState extends State<ManageArchives> {
         width: double.infinity,
         height: double.infinity,
         child: Center(
-            child: TextButton(
-          onPressed: () => createFileBackup(),
-          child: const Text("delete"),
+            child: Column(
+          children: [
+            const SizedBox(
+              height: 100,
+            ),
+            TextButton(
+              onPressed: () => createFileBackup(),
+              child: const Text("create"),
+            ),
+            TextButton(
+              onPressed: () => readArchive(),
+              child: const Text("read"),
+            ),
+            TextButton(
+              onPressed: () => deleteDirectory(),
+              child: const Text("delete dir"),
+            ),
+          ],
         )),
       ),
     );
