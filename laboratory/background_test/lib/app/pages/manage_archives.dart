@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
@@ -49,8 +51,7 @@ class _ManageArchivesState extends State<ManageArchives> {
 
   void createFileBackup() async {
     try {
-      File file =
-          File("/storage/emulated/0/Manga Libray/manga/backup.json");
+      File file = File("/storage/emulated/0/Manga Libray/manga/backup.json");
       if (file.existsSync()) {
         debugPrint("este arquivo existe!");
       } else {
@@ -124,7 +125,7 @@ Operadores
 operador == ( outro objeto ) → bool
 O operador de igualdade.
 herdado''',
-"txt2": '''
+          "txt2": '''
 Um objeto de comunicação HTTP bidirecional para aplicativos cliente ou servidor.
 
 O fluxo expõe as mensagens recebidas. Uma mensagem de texto será do tipo Stringe uma mensagem binária será do tipo List<int>.
@@ -426,7 +427,7 @@ Operadores
 operador == ( outro objeto ) → bool
 O operador de igualdade.
 herdado''',
-"txt2": '''
+          "txt2": '''
 Um objeto de comunicação HTTP bidirecional para aplicativos cliente ou servidor.
 
 O fluxo expõe as mensagens recebidas. Uma mensagem de texto será do tipo Stringe uma mensagem binária será do tipo List<int>.
@@ -640,9 +641,10 @@ abrir → const int
     }
   }
 
-  void readGzArchive() async {
+  void readGzArchive([File? file]) async {
     try {
-      File file = File("/storage/emulated/0/Manga Libray/manga/backup2.gz");
+      file ??= File("/storage/emulated/0/Manga Libray/manga/backup2.gz");
+
       var bin = await file.readAsBytes();
       // print(bin);
       var decode = GZipCodec(dictionary: bin);
@@ -651,6 +653,40 @@ abrir → const int
       print(data);
     } catch (e) {
       debugPrint("erro no readGzArchive: $e");
+    }
+  }
+
+  // procurar um arquivo no sistema e le-lo
+  void readArchiveSearch() async {
+    try {
+      final data = await FilePicker.platform.pickFiles(
+          allowMultiple: false,
+          type: FileType.custom,
+          allowedExtensions: ['gz']);
+      if (data == null) {
+        debugPrint("não selecionou um arquivo!");
+      } else {
+        final path = data.files.single.path!.replaceFirst("Android/data/com.example.background_test/files/", "");
+        log("arquive - path: $path");
+        File file = File(path);
+        readGzArchive(file);
+      }
+      // debugPrint("cache : ");
+    } catch (e) {
+      debugPrint("falha at readArchive System: $e");
+    }
+  }
+
+  void getDirectory() async {
+    try {
+      final data = await FilePicker.platform.getDirectoryPath();
+      if (data == null) {
+        log("não foi selecionado uma file!");
+      } else {
+        log("path: $data");
+      }
+    } catch (e) {
+      debugPrint("erro no getDirectory: $e");
     }
   }
 
@@ -694,6 +730,14 @@ abrir → const int
             TextButton(
               onPressed: () => readGzArchive(),
               child: const Text("read GZ"),
+            ),
+            TextButton(
+              onPressed: () => getDirectory(),
+              child: const Text("get directory"),
+            ),
+            TextButton(
+              onPressed: () => readArchiveSearch(),
+              child: const Text("input read archive .GZ"),
             ),
           ],
         )),
