@@ -17,7 +17,7 @@ final routes = GoRouter(
     GoRoute(path: '/pinchZoom', builder: (context, state) => const MyPinchZoom(),),
     GoRoute(path: '/page', builder: (context, state) => const MyPageView(),),
     GoRoute(path: '/lista', builder: (context, state) => const MyDragebleList(),),
-    GoRoute(path: '/', builder: (context, state) => const WebViewTeste(),),
+    GoRoute(path: '/web', builder: (context, state) => const WebViewTeste(),),
     GoRoute(path: '/', builder: (context, state) => const MyWebviewx(),),// MyWebviewx()
   ],
 );
