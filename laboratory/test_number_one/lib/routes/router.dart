@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:test_number_one/app/pages/alerts.dart';
+import 'package:test_number_one/app/pages/bottom_navigation.dart';
 import 'package:test_number_one/app/pages/dragable_list.dart';
 import 'package:test_number_one/app/pages/icons_config.dart';
 import 'package:test_number_one/app/pages/page_view.dart';
@@ -18,6 +19,7 @@ final routes = GoRouter(
     GoRoute(path: '/page', builder: (context, state) => const MyPageView(),),
     GoRoute(path: '/lista', builder: (context, state) => const MyDragebleList(),),
     GoRoute(path: '/web', builder: (context, state) => const WebViewTeste(),),
-    GoRoute(path: '/', builder: (context, state) => const MyWebviewx(),),// MyWebviewx()
+    GoRoute(path: '/x', builder: (context, state) => const MyWebviewx(),),
+    GoRoute(path: '/', builder: (context, state) => const BottomNavigationTeste(),),
   ],
 );
