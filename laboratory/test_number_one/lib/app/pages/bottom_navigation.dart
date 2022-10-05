@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
 class BottomNavigationTeste extends StatefulWidget {
   const BottomNavigationTeste({super.key});
@@ -20,44 +21,52 @@ class _BottomNavigationTesteState extends State<BottomNavigationTeste> {
         systemNavigationBarColor: Colors.transparent));
   }
 
+  Future<bool> back() async {
+    GoRouter.of(context).push("/alert");
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: ListView.builder(
-          controller: controller,
-          itemCount: 30,
-          itemBuilder: (context, index) => const ListTile(
-            title: Text("item data"),
+    return WillPopScope(
+      onWillPop: () => back(),
+      child: Scaffold(
+        body: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: ListView.builder(
+            controller: controller,
+            itemCount: 30,
+            itemBuilder: (context, index) => const ListTile(
+              title: Text("item data"),
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: ScrollHideWidget(
-        controller: controller,
-        child: BottomNavigationBarTheme(
-          data: const BottomNavigationBarThemeData(
-              backgroundColor: Color.fromARGB(94, 0, 0, 0)),
-          child: BottomNavigationBar(
-            currentIndex: 1,
-            onTap: (value) => debugPrint("indo para a rota: $value"),
-            items: const [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  activeIcon: Icon(
-                    Icons.home_outlined,
-                    color: Colors.red,
-                  ),
-                  label: "home page"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.import_contacts),
-                  activeIcon: Icon(
-                    Icons.import_contacts_sharp,
-                    color: Colors.red,
-                  ),
-                  label: "home page")
-            ],
+        bottomNavigationBar: ScrollHideWidget(
+          controller: controller,
+          child: BottomNavigationBarTheme(
+            data: const BottomNavigationBarThemeData(
+                backgroundColor: Color.fromARGB(94, 0, 0, 0)),
+            child: BottomNavigationBar(
+              currentIndex: 1,
+              onTap: (value) => debugPrint("indo para a rota: $value"),
+              items: const [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    activeIcon: Icon(
+                      Icons.home_outlined,
+                      color: Colors.red,
+                    ),
+                    label: "home page"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.import_contacts),
+                    activeIcon: Icon(
+                      Icons.import_contacts_sharp,
+                      color: Colors.red,
+                    ),
+                    label: "home page")
+              ],
+            ),
           ),
         ),
       ),
