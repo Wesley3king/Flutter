@@ -95,6 +95,7 @@ class _ScrollHideWidgetState extends State<ScrollHideWidget> {
   void initState() {
     super.initState();
     widget.controller.addListener(listen);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
   }
 
   @override
@@ -108,15 +109,15 @@ class _ScrollHideWidgetState extends State<ScrollHideWidget> {
     if (direction == ScrollDirection.forward) {
       show();
       SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        systemNavigationBarContrastEnforced: false,
-        systemNavigationBarDividerColor: Colors.black,
-        systemNavigationBarColor: Colors.transparent));
+          systemNavigationBarContrastEnforced: false,
+          systemNavigationBarDividerColor: Colors.black,
+          systemNavigationBarColor: Colors.transparent));
     } else if (direction == ScrollDirection.reverse) {
       hide();
       SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        systemNavigationBarContrastEnforced: false,
-        systemNavigationBarDividerColor: Colors.black26,
-        systemNavigationBarColor: Colors.black26));
+          systemNavigationBarContrastEnforced: false,
+          systemNavigationBarDividerColor: Colors.black26,
+          systemNavigationBarColor: Colors.black26));
     }
   }
 
