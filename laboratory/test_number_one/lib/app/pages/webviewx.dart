@@ -32,13 +32,13 @@ class _MyWebviewxState extends State<MyWebviewx> {
   ];
 
   String buildPages(BuildContext context) {
-    // StringBuffer buffer = StringBuffer();
-    // for (String str in lista) {
-    //   buffer.write(
-    //       '<img src="$str" width="${MediaQuery.of(context).size.width}px" alt="page of manga" />');
-    // }
-    // return '<head><style>::-webkit-scrollbar{display: none;}</style></head><body style="margin: 0px;padding:0px;">${buffer.toString()}</body>';
-    return '<head><style>::-webkit-scrollbar{display: none;}</style></head><body style="margin: 0px;padding:0px;"><img src="/storage/emulated/0/image.jpg" width="${MediaQuery.of(context).size.width}px" alt="page of manga" /></body>';
+    StringBuffer buffer = StringBuffer();
+    for (String str in lista) {
+      buffer.write(
+          '<img src="$str" width="${MediaQuery.of(context).size.width}px" alt="page of manga" />');
+    }
+    return '<head><style>::-webkit-scrollbar{display: none;}</style></head><body style="margin: 0px;padding:0px;">${buffer.toString()}</body>';
+    // return '<head><style>::-webkit-scrollbar{display: none;}</style></head><body style="margin: 0px;padding:0px;"><img src="/storage/emulated/0/image.jpg" width="${MediaQuery.of(context).size.width}px" alt="page of manga" /></body>';
     /*
     <!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Document<title><style>*{margin: 0px;padding:0px;}</style></head>
 
@@ -64,19 +64,39 @@ class _MyWebviewxState extends State<MyWebviewx> {
         ),
       ),
       Padding(
-        padding: EdgeInsets.only(bottom: isLandscape ? 0 : 170),
+        padding: EdgeInsets.only(
+            bottom: isLandscape ? 0 : 170), // isLandscape ? 0 : 170
         child: GestureDetector(
           onTap: () => setState(() {
             showThis = !showThis;
           }),
-          onDoubleTap: () => webviewController.callJsMethod("scroll", []),
+          // onTapUp: (details) {
+          //   setState(() {
+          //     showThis = !showThis;
+          //   });
+          // },
+          //onDoubleTap: () => webviewController.callJsMethod("scroll", []),
           child: Container(
-            //color: Colors.black54,
-            decoration: const BoxDecoration(
-              color: Colors.black54,
+            // decoration: const BoxDecoration(
+            //   color: Colors.black54,
+            // ),
+            // clipBehavior: Clip.hardEdge,
+            constraints: const BoxConstraints(
+              maxHeight: 400,
+              maxWidth: 300,
+              minHeight: 300,
+              minWidth: 200
             ),
             height: 200,
             width: MediaQuery.of(context).size.width - 190,
+            child: GestureDetector(onTap: () => setState(() {
+            showThis = !showThis;
+          }),),
+            // child: SizedBox(
+            //   height: 200,
+            //   width: MediaQuery.of(context).size.width - 190,
+            //   // child: ,
+            // ),
           ),
         ),
       ),
@@ -127,12 +147,12 @@ class _MyWebviewxState extends State<MyWebviewx> {
           jsContent: const {
             EmbeddedJsContent(
                 js: "function scroll() { window.scrollTo(500); }"),
-            EmbeddedJsContent(
-              webJs:
-                  'window.document.addEventListener("click", ()=> PrintNaTelaGG("i m king"));',
-              mobileJs:
-                  'window.document.addEventListener("click", ()=> PrintNaTelaGG("i m king"));',
-            ),
+            // EmbeddedJsContent(
+            //   webJs:
+            //       'window.document.addEventListener("click", ()=> PrintNaTelaGG("i m king"));',
+            //   mobileJs:
+            //       'window.document.addEventListener("click", ()=> PrintNaTelaGG("i m king"));',
+            // ),
           },
           dartCallBacks: {
             DartCallback(
