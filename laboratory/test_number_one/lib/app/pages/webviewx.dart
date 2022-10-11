@@ -49,6 +49,8 @@ class _MyWebviewxState extends State<MyWebviewx> {
   List<Widget> buildInfo(BuildContext context) {
     final double height = MediaQuery.of(context).size.height - 120;
     debugPrint("orintacion: ${MediaQuery.of(context).orientation}");
+    showThis ? SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge) :
+            SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape
             ? true
@@ -67,9 +69,11 @@ class _MyWebviewxState extends State<MyWebviewx> {
         padding: EdgeInsets.only(
             bottom: isLandscape ? 0 : 170), // isLandscape ? 0 : 170
         child: GestureDetector(
-          onTap: () => setState(() {
-            showThis = !showThis;
-          }),
+          onTap: () {
+            setState(() {
+              showThis = !showThis;
+            });
+          },
           // onTapUp: (details) {
           //   setState(() {
           //     showThis = !showThis;
@@ -77,10 +81,6 @@ class _MyWebviewxState extends State<MyWebviewx> {
           // },
           //onDoubleTap: () => webviewController.callJsMethod("scroll", []),
           child: Container(
-            // decoration: const BoxDecoration(
-            //   color: Colors.black54,
-            // ),
-            // clipBehavior: Clip.hardEdge,
             constraints: const BoxConstraints(
               maxHeight: 400,
               maxWidth: 300,
@@ -92,23 +92,74 @@ class _MyWebviewxState extends State<MyWebviewx> {
             child: GestureDetector(onTap: () => setState(() {
             showThis = !showThis;
           }),),
-            // child: SizedBox(
-            //   height: 200,
-            //   width: MediaQuery.of(context).size.width - 190,
-            //   // child: ,
-            // ),
           ),
         ),
       ),
       AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        height: showThis ? 60 : 0,
+        height: showThis ? 180 : 0,
         child: Wrap(
           children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: SizedBox(
+                      height: 60,
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          const SizedBox(width: 3.0,),
+                          SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: Material(
+                              color: const Color.fromARGB(179, 0, 0, 0),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(40)),
+                              ),
+                              child: IconButton(onPressed: (){}, icon: const Icon(Icons.skip_previous, size: 25,)))),
+                              const SizedBox(width: 3.0,),
+                            Flexible(
+                              child: SizedBox(height: 50, child: Material(
+                                color: const Color.fromARGB(179, 0, 0, 0),
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                                ),
+                                child: Slider(
+                                  value: 1.0,
+                                  max: 3.0,
+                                  min: 0.0,
+                                  onChanged: (value){},
+                                )
+                              ),),
+                            ),
+                            const SizedBox(width: 3.0,),
+                          SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: Material(
+                              color: const Color.fromARGB(179, 0, 0, 0),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(40)),
+                              ),
+                              child: IconButton(onPressed: (){}, icon: const Icon(Icons.skip_next, size: 25,)),)),
+                          const SizedBox(width: 3.0,),
+                        ],
+                      ),
+                    ),
+            ),
             Container(
               color: Colors.black54,
               width: MediaQuery.of(context).size.width,
-              height: 60,
+              height: 120,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 60,
+                    width: MediaQuery.of(context).size.width,),
+                  const SizedBox(height: 60,)
+                ],
+              ),
             )
           ],
         ),
@@ -119,7 +170,7 @@ class _MyWebviewxState extends State<MyWebviewx> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     // Future.delayed(
     //     const Duration(seconds: 2),
     //     () => webviewController.loadContent( // 'https://flutter.dev'
