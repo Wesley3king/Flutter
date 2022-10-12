@@ -65,8 +65,9 @@ class _ScrollablePositionedListPageState
   /// Listener that reports the position of items when the list is scrolled.
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
-  late List<double> itemHeights;
+  late List<double> itemHeights = [];
   var indexes = 0;
+  bool isWorking = false;
   List<Widget> images = [];
   // late List<Color> itemColors;
   //bool reversed = false;
@@ -93,13 +94,13 @@ class _ScrollablePositionedListPageState
   @override
   void initState() {
     super.initState();
-    final heightGenerator = Random(328902348);
+    // final heightGenerator = Random(328902348);
     // final colorGenerator = Random(42490823);
-    itemHeights = List<double>.generate(
-        numberOfItems,
-        (int _) =>
-            heightGenerator.nextDouble() * (maxItemHeight - minItemHeight) +
-            minItemHeight);
+    // itemHeights = List<double>.generate(
+    //     numberOfItems,
+    //     (int _) =>
+    //         heightGenerator.nextDouble() * (maxItemHeight - minItemHeight) +
+    //         minItemHeight);
     // itemColors = List<Color>.generate(numberOfItems,
     //     (int _) => Color(colorGenerator.nextInt(randomMax)).withOpacity(1));
   }
@@ -152,13 +153,13 @@ class _ScrollablePositionedListPageState
 
   Widget list(Orientation orientation) => ScrollablePositionedList.builder(
         itemCount: lista.length,
-        itemBuilder: (context, index) => item(index, orientation, lista[index]),
+        itemBuilder: (context, index) => generateItens(index, context),
         itemScrollController: itemScrollController,
         itemPositionsListener: itemPositionsListener,
         //reverse: reversed,
-        scrollDirection: orientation == Orientation.portrait
-            ? Axis.vertical
-            : Axis.horizontal,
+        // scrollDirection: orientation == Orientation.portrait
+        //     ? Axis.vertical
+        //     : Axis.horizontal,
       );
 
   Widget get positionsView => ValueListenableBuilder<Iterable<ItemPosition>>(
@@ -261,41 +262,61 @@ class _ScrollablePositionedListPageState
   /// Generate item number [i].
   ///
   /// generate itens
-  Widget generateItens(int index) {
+  Widget generateItens(int index, BuildContext context) {
     if (index < indexes) {
-      return images[index];
+      return item(index, MediaQuery.of(context).orientation);
     } else {
-      return const SizedBox(
-        width: double.infinity,
-        height: 800,
-        child: CircularProgressIndicator(),
-      );
+      if (images.length != lista.length) {
+        if (isWorking) {
+          return const SizedBox(
+            width: double.infinity,
+            height: 800,
+            child: Center(child: CircularProgressIndicator()),
+          );
+        } else {
+          getSize(lista[index], MediaQuery.of(context).size.width);
+          return const SizedBox(
+            width: double.infinity,
+            height: 800,
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+      } else {
+        return Container();
+      }
     }
   }
 
-  Future<Uint8List> getSize(String src) async {
+  Future<void> getSize(String src, double width) async {
     try {
+      isWorking = true;
       Response<List<int>> rs = await Dio().get<List<int>>(src,
           options: Options(responseType: ResponseType.bytes));
       // print(rs.data);
       var image = await decodeImageFromList(Uint8List.fromList(rs.data!));
-      print(image is Widget);
-      return Uint8List.fromList(rs.data!);
+      // debugPrint(image is Widget);
+      var image2 = Image.memory(Uint8List.fromList(rs.data!), fit: BoxFit.fill);
+      itemHeights.add((image.height * width) / image.width);
+      // image2.;
+      images.add(image2);
+      debugPrint("imagem : $src adicionada! h : ${image.height.toDouble()}");
+      setState(() {
+        isWorking = false;
+        indexes++;
+      });
     } catch (e) {
       debugPrint("erro no codec: $e");
-      return Uint8List.fromList([]);
+      isWorking = false;
+      //return Uint8List.fromList([]);
     }
   }
 
-  Widget item(int i, Orientation orientation, String src) {
-    // ImageProvider provider = await NetworkImage(src);
-    // Image imagem = await decodeImageFromList([]);
-    // final buffer = await rootBundle.load('assets/logo.png');
-    getSize(src);
+  Widget item(int i, Orientation orientation) {
+    debugPrint("height: ${itemHeights[i]}");
     return SizedBox(
-      height: orientation == Orientation.portrait ? itemHeights[i] : null,
-      width: orientation == Orientation.landscape ? itemHeights[i] : null,
-      child: Image.memory(getSize(src)),
+      height: itemHeights[i],
+      // width: orientation == Orientation.landscape ? itemHeights[i] : null,
+      child: images[i],
     );
   }
 }
