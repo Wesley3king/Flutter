@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class MyPageView extends StatefulWidget {
   const MyPageView({super.key});
@@ -11,6 +12,12 @@ class MyPageView extends StatefulWidget {
 }
 
 class _MyPageViewState extends State<MyPageView> {
+  final ItemScrollController itemScrollController = ItemScrollController();
+  final ItemPositionsListener itemPositionListener =
+      ItemPositionsListener.create();
+  late List<double> itemHeights;
+  late List<Color> itemColors;
+  bool reversed = false;
   List<String> lista = [
     "https://mangayabu.top/mangas2/eleceed/capitulo-155/00.jpg",
     "https://mangayabu.top/mangas2/eleceed/capitulo-155/01.jpg",
@@ -48,16 +55,11 @@ class _MyPageViewState extends State<MyPageView> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      itemCount: lista.length,
-      itemBuilder: (context, index) => ListView(
-
-        children: [
-          IntrinsicHeight(
-            child: MyPageImage(url: lista[index]),
-          )
-        ],
-      ),);
+    return ScrollablePositionedList.builder(
+        itemCount: lista.length,
+        itemBuilder: (context, index) => IntrinsicHeight(
+              child: Image.network(lista[index]),
+            ));
   }
   /*ListView.builder(
       itemCount: lista.length,
