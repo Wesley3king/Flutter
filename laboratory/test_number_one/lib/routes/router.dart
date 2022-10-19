@@ -16,10 +16,10 @@ final routes = GoRouter(
     GoRoute(path: '/alert', builder: (context, state) => const MyAlert(),),
     GoRoute(path: '/zoom', builder: (context, state) => const MyZoom(),),
     GoRoute(path: '/pinchZoom', builder: (context, state) => const MyPinchZoom(),),
-    GoRoute(path: '/', builder: (context, state) => const MyPageView(),),
+    GoRoute(path: '/page', builder: (context, state) => const MyPageView(),),
     GoRoute(path: '/lista', builder: (context, state) => const MyDragebleList(),),
     GoRoute(path: '/web', builder: (context, state) => const WebViewTeste(),),
-    GoRoute(path: '/x', builder: (context, state) => const MyWebviewx(),),
+    GoRoute(path: '/', builder: (context, state) => const MyWebviewx(),),
     GoRoute(path: '/bottom', builder: (context, state) => const BottomNavigationTeste(),),
   ],
 );

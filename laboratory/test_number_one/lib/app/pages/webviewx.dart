@@ -35,22 +35,82 @@ class _MyWebviewxState extends State<MyWebviewx> {
     StringBuffer buffer = StringBuffer();
     for (String str in lista) {
       buffer.write(
-          '<img src="$str" width="${MediaQuery.of(context).size.width}px" alt="page of manga" />');
+          '"$str",');
     }
-    return '<head><style>::-webkit-scrollbar{display: none;}</style></head><body style="margin: 0px;padding:0px;">${buffer.toString()}</body>';
-    // return '<head><style>::-webkit-scrollbar{display: none;}</style></head><body style="margin: 0px;padding:0px;"><img src="/storage/emulated/0/image.jpg" width="${MediaQuery.of(context).size.width}px" alt="page of manga" /></body>';
-    /*
-    <!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Document<title><style>*{margin: 0px;padding:0px;}</style></head>
+    // return '<head><style>::-webkit-scrollbar{display: none;}</style></head><body style="margin: 0px;padding:0px;">${buffer.toString()}</body>';
 
-    </html>
-    */
+    return '''
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teste de html</title>
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+        }
+        ::-webkit-scrollbar{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="images">
+        
+    </div>
+    
+    <script>
+        var local = window.document.querySelector("div#images");
+        var index = 0;
+        var lista = [$buffer];
+
+        /// scroll to
+        function scrollToIndex(indice) {
+          try{
+            var image = window.document.querySelector(`#img`+ indice);
+            image.scrollIntoView();
+            testPlatformSpecificMethod(indice);
+          } catch (e) {
+            console.log('erro '+e);
+          }
+        }
+
+        function sendResponse(indice) {
+           // console.log(`index: ` + index);
+        }
+
+        async function renderCore(src) {
+            const img = new Image();
+            img.setAttribute("id", `img`+ index);
+            img.setAttribute("onclick", `testPlatformSpecificMethod(`+index+`)`);
+            img.onload = function() {
+              img.setAttribute("width", window.innerWidth + `px`);
+              
+              local.appendChild(img);
+              index++;
+              machineRender();
+            }
+            img.src = src;
+        };
+
+        function machineRender() {
+          if (index < lista.length) {
+              renderCore(lista[index]);
+          }
+        }
+
+        machineRender();
+    </script>
+</body>''';
   }
 
   List<Widget> buildInfo(BuildContext context) {
     final double height = MediaQuery.of(context).size.height - 120;
     debugPrint("orintacion: ${MediaQuery.of(context).orientation}");
-    showThis ? SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge) :
-            SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    showThis
+        ? SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge)
+        : SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape
             ? true
@@ -82,16 +142,14 @@ class _MyWebviewxState extends State<MyWebviewx> {
           //onDoubleTap: () => webviewController.callJsMethod("scroll", []),
           child: Container(
             constraints: const BoxConstraints(
-              maxHeight: 400,
-              maxWidth: 300,
-              minHeight: 300,
-              minWidth: 200
-            ),
+                maxHeight: 400, maxWidth: 300, minHeight: 300, minWidth: 200),
             height: 200,
             width: MediaQuery.of(context).size.width - 190,
-            child: GestureDetector(onTap: () => setState(() {
-            showThis = !showThis;
-          }),),
+            child: GestureDetector(
+              onTap: () => setState(() {
+                showThis = !showThis;
+              }),
+            ),
           ),
         ),
       ),
@@ -103,50 +161,76 @@ class _MyWebviewxState extends State<MyWebviewx> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: SizedBox(
-                      height: 60,
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          const SizedBox(width: 3.0,),
-                          SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: Material(
-                              color: const Color.fromARGB(179, 0, 0, 0),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(40)),
-                              ),
-                              child: IconButton(onPressed: (){}, icon: const Icon(Icons.skip_previous, size: 25,)))),
-                              const SizedBox(width: 3.0,),
-                            Flexible(
-                              child: SizedBox(height: 50, child: Material(
-                                color: const Color.fromARGB(179, 0, 0, 0),
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                                ),
-                                child: Slider(
-                                  value: 1.0,
-                                  max: 3.0,
-                                  min: 0.0,
-                                  onChanged: (value){},
-                                )
-                              ),),
+                height: 60,
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const SizedBox(
+                      width: 3.0,
+                    ),
+                    SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: Material(
+                            color: const Color.fromARGB(179, 0, 0, 0),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(40)),
                             ),
-                            const SizedBox(width: 3.0,),
-                          SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: Material(
-                              color: const Color.fromARGB(179, 0, 0, 0),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(40)),
-                              ),
-                              child: IconButton(onPressed: (){}, icon: const Icon(Icons.skip_next, size: 25,)),)),
-                          const SizedBox(width: 3.0,),
-                        ],
+                            child: IconButton(
+                                onPressed: () {},
+                                icon: const Icon(
+                                  Icons.skip_previous,
+                                  size: 25,
+                                )))),
+                    const SizedBox(
+                      width: 3.0,
+                    ),
+                    Flexible(
+                      child: SizedBox(
+                        height: 50,
+                        child: Material(
+                            color: const Color.fromARGB(179, 0, 0, 0),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                            ),
+                            child: Slider(
+                              value: 0.0,
+                              max: lista.length.toDouble(),
+                              min: 0.0,
+                              onChanged: (value) {
+                                webviewController.callJsMethod(
+                                    'scrollToIndex', [value.toInt()]);
+                              },
+                            )),
                       ),
                     ),
+                    const SizedBox(
+                      width: 3.0,
+                    ),
+                    SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: Material(
+                          color: const Color.fromARGB(179, 0, 0, 0),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(40)),
+                          ),
+                          child: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.skip_next,
+                                size: 25,
+                              )),
+                        )),
+                    const SizedBox(
+                      width: 3.0,
+                    ),
+                  ],
+                ),
+              ),
             ),
             Container(
               color: Colors.black54,
@@ -156,8 +240,11 @@ class _MyWebviewxState extends State<MyWebviewx> {
                 children: [
                   SizedBox(
                     height: 60,
-                    width: MediaQuery.of(context).size.width,),
-                  const SizedBox(height: 60,)
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                  const SizedBox(
+                    height: 60,
+                  )
                 ],
               ),
             )
@@ -197,7 +284,11 @@ class _MyWebviewxState extends State<MyWebviewx> {
           onWebViewCreated: (controller) => webviewController = controller,
           jsContent: const {
             EmbeddedJsContent(
-                js: "function scroll() { window.scrollTo(500); }"),
+              webJs:
+                  "function testPlatformSpecificMethod(indice) {TestDartCallback('Web callback says: ' + indice) }",
+              mobileJs:
+                  "function testPlatformSpecificMethod(indice) { TestDartCallback.postMessage(indice) }",
+            ),
             // EmbeddedJsContent(
             //   webJs:
             //       'window.document.addEventListener("click", ()=> PrintNaTelaGG("i m king"));',
@@ -207,9 +298,9 @@ class _MyWebviewxState extends State<MyWebviewx> {
           },
           dartCallBacks: {
             DartCallback(
-              name: "PrintNaTelaGG",
-              callBack: (message) => log("menssagem: $message"),
-            )
+              name: 'TestDartCallback',
+              callBack: (msg) => showSnackBar(msg.toString(), context),
+            ),
           },
         ),
         SizedBox(
@@ -221,6 +312,17 @@ class _MyWebviewxState extends State<MyWebviewx> {
           ),
         )
       ],
+    );
+  }
+
+  showSnackBar(String string, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(string),
+        );
+      },
     );
   }
 }
