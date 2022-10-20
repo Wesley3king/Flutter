@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -50,16 +51,37 @@ class _MyPageViewState extends State<MyPageView> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setSystemUIOverlayStyle( const SystemUiOverlayStyle(
+        systemStatusBarContrastEnforced: false,
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.black26));
     verPermissao();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ScrollablePositionedList.builder(
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        title: const Text('Detalhes do Mangá'),
+        actions: [
+          IconButton(onPressed: () {
+              // utilize url_launcher
+            },
+            tooltip: "Compartilhar",
+            icon: const Icon(Icons.share),
+          )
+        ],
+      ),
+      body: ScrollablePositionedList.builder(
         itemCount: lista.length,
         itemBuilder: (context, index) => IntrinsicHeight(
               child: Image.network(lista[index]),
-            ));
+            )),
+    );
   }
   /*ListView.builder(
       itemCount: lista.length,
