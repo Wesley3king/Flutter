@@ -1,9 +1,12 @@
 import 'dart:io';
 import 'dart:async';
+import 'dart:isolate';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:test_number_one/app/pages/background.dart';
 
 class MyPageView extends StatefulWidget {
   const MyPageView({super.key});
@@ -16,6 +19,7 @@ class _MyPageViewState extends State<MyPageView> {
   final ItemScrollController itemScrollController = ItemScrollController();
   final ItemPositionsListener itemPositionListener =
       ItemPositionsListener.create();
+  final Controllar controllar = Controllar();
   late List<double> itemHeights;
   late List<Color> itemColors;
   bool reversed = false;
@@ -52,11 +56,22 @@ class _MyPageViewState extends State<MyPageView> {
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    SystemChrome.setSystemUIOverlayStyle( const SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         systemStatusBarContrastEnforced: false,
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: Colors.black26));
-    verPermissao();
+    // verPermissao();
+    start();
+  }
+
+  void start() async {
+    await controllar.start();
+    // final ReceivePort receivePort = ReceivePort();
+
+    // await Isolate.spawn( controllar.insert, receivePort.sendPort);
+    await compute(controllar.insert, 'king');
+
+    debugPrint('data: ${await controllar.getData()}');
   }
 
   @override
@@ -68,7 +83,8 @@ class _MyPageViewState extends State<MyPageView> {
         backgroundColor: Colors.transparent,
         title: const Text('Detalhes do Mangá'),
         actions: [
-          IconButton(onPressed: () {
+          IconButton(
+            onPressed: () {
               // utilize url_launcher
             },
             tooltip: "Compartilhar",
@@ -76,11 +92,14 @@ class _MyPageViewState extends State<MyPageView> {
           )
         ],
       ),
-      body: ScrollablePositionedList.builder(
-        itemCount: lista.length,
-        itemBuilder: (context, index) => IntrinsicHeight(
-              child: Image.network(lista[index]),
-            )),
+      body: ListView.builder(
+          // itemScrollController: ScrollController(),
+          padding: const EdgeInsets.all(0),
+          // shrinkWrap: true,
+          itemCount: lista.length,
+          itemBuilder: (context, index) => IntrinsicHeight(
+                child: Image.network(lista[index]),
+              )),
     );
   }
   /*ListView.builder(

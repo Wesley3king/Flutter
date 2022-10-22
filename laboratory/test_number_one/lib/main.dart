@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 
 import 'app/my_app.dart';
+import 'config_hive/hive_config.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await HiveConfig.start();
   runApp(const MyApp());
 }
 
