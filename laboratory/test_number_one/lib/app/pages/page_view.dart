@@ -43,7 +43,7 @@ class _MyPageViewState extends State<MyPageView> {
 
   Future verPermissao() async {
     _permissionStatus = await Permission.storage.status;
-    print(_permissionStatus.isDenied ? "não TEM PERMISÃO" : "ta ok");
+    debugPrint(_permissionStatus.isDenied ? "não TEM PERMISÃO" : "ta ok");
     if (_permissionStatus != PermissionStatus.granted) {
       PermissionStatus permissionStatus = await Permission.storage.request();
       setState(() {
@@ -69,7 +69,7 @@ class _MyPageViewState extends State<MyPageView> {
     // final ReceivePort receivePort = ReceivePort();
 
     // await Isolate.spawn( controllar.insert, receivePort.sendPort);
-    await compute(controllar.insert, 'king');
+    //await compute(controllar.insert, 'king');
 
     debugPrint('data: ${await controllar.getData()}');
   }
@@ -86,14 +86,20 @@ class _MyPageViewState extends State<MyPageView> {
           IconButton(
             onPressed: () {
               // utilize url_launcher
+              itemScrollController.scrollTo(
+                index: 1,
+                duration: const Duration(milliseconds: 300));
+
+              // ScrollController().animateTo(offset, duration: duration, curve: curve)
             },
             tooltip: "Compartilhar",
             icon: const Icon(Icons.share),
           )
         ],
       ),
-      body: ListView.builder(
-          // itemScrollController: ScrollController(),
+      body: ScrollablePositionedList.builder(
+          itemScrollController: itemScrollController,
+          itemPositionsListener: itemPositionListener,
           padding: const EdgeInsets.all(0),
           // shrinkWrap: true,
           itemCount: lista.length,
