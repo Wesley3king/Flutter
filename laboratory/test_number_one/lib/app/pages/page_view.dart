@@ -97,15 +97,18 @@ class _MyPageViewState extends State<MyPageView> {
           )
         ],
       ),
-      body: ScrollablePositionedList.builder(
-          itemScrollController: itemScrollController,
-          itemPositionsListener: itemPositionListener,
-          padding: const EdgeInsets.all(0),
-          // shrinkWrap: true,
-          itemCount: lista.length,
-          itemBuilder: (context, index) => IntrinsicHeight(
-                child: Image.network(lista[index]),
-              )),
+      body: ColorFiltered(
+        colorFilter: ColorFilter.mode(Color.fromARGB(255, 216, 61, 203), BlendMode.color),
+        child: ScrollablePositionedList.builder(
+            itemScrollController: itemScrollController,
+            itemPositionsListener: itemPositionListener,
+            padding: const EdgeInsets.all(0),
+            // shrinkWrap: true,
+            itemCount: lista.length,
+            itemBuilder: (context, index) => IntrinsicHeight(
+                  child: Image.network(lista[index]),
+                )),
+      ),
     );
   }
   /*ListView.builder(
