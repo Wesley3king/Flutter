@@ -76,6 +76,7 @@ class _MyPageViewState extends State<MyPageView> {
 
   @override
   Widget build(BuildContext context) {
+    // debugPrint("luminosidade: ${MediaQuery.of(context)}");
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
