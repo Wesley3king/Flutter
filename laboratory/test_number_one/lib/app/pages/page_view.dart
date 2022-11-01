@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:screen_brightness/screen_brightness.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:test_number_one/app/pages/background.dart';
 
@@ -20,6 +21,7 @@ class _MyPageViewState extends State<MyPageView> {
   final ItemPositionsListener itemPositionListener =
       ItemPositionsListener.create();
   final Controllar controllar = Controllar();
+  final ScreenBrightness screenBrightness = ScreenBrightness();
   late List<double> itemHeights;
   late List<Color> itemColors;
   bool reversed = false;
@@ -87,10 +89,11 @@ class _MyPageViewState extends State<MyPageView> {
           IconButton(
             onPressed: () {
               // utilize url_launcher
-              itemScrollController.scrollTo(
-                index: 1,
-                duration: const Duration(milliseconds: 300));
-
+              // itemScrollController.scrollTo(
+              //   index: 1,
+              //   duration: const Duration(milliseconds: 300));
+              // screenBrightness.setScreenBrightness(0.0);
+              screenBrightness.resetScreenBrightness();
               // ScrollController().animateTo(offset, duration: duration, curve: curve)
             },
             tooltip: "Compartilhar",
@@ -99,7 +102,8 @@ class _MyPageViewState extends State<MyPageView> {
         ],
       ),
       body: ColorFiltered(
-        colorFilter: ColorFilter.mode(Color.fromARGB(255, 216, 61, 203), BlendMode.color),
+        colorFilter: ColorFilter.mode(
+            Color.fromARGB(255, 216, 61, 203), BlendMode.color),
         child: ScrollablePositionedList.builder(
             itemScrollController: itemScrollController,
             itemPositionsListener: itemPositionListener,

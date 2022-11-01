@@ -51,6 +51,7 @@ dependencies:
   flutter_inappwebview: ^5.4.3+7
   webviewx: ^0.2.1
   path_provider: ^2.0.11
+  screen_brightness: ^0.2.2
   # webview_flutter_plus: ^0.3.0+2
   url_launcher: ^6.1.5
   dio: ^4.0.6
