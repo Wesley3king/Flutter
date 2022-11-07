@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:test_number_one/app/pages/background.dart';
+import 'package:transformable_list_view/transformable_list_view.dart';
 
 class MyPageView extends StatefulWidget {
   const MyPageView({super.key});
@@ -20,6 +21,7 @@ class _MyPageViewState extends State<MyPageView> {
   final ItemScrollController itemScrollController = ItemScrollController();
   final ItemPositionsListener itemPositionListener =
       ItemPositionsListener.create();
+  final ScrollController scrollController = ScrollController();
   final Controllar controllar = Controllar();
   final ScreenBrightness screenBrightness = ScreenBrightness();
   late List<double> itemHeights;
@@ -28,18 +30,18 @@ class _MyPageViewState extends State<MyPageView> {
   List<String> lista = [
     "https://mangayabu.top/mangas2/eleceed/capitulo-155/00.jpg",
     "https://mangayabu.top/mangas2/eleceed/capitulo-155/01.jpg",
-    "https://mangayabu.top/mangas2/eleceed/capitulo-155/02.jpg",
-    "https://mangayabu.top/mangas2/eleceed/capitulo-155/03.jpg",
-    "https://mangayabu.top/mangas2/eleceed/capitulo-155/04.jpg",
-    "https://mangayabu.top/mangas2/eleceed/capitulo-155/05.jpg",
-    "https://mangayabu.top/mangas2/eleceed/capitulo-155/06.jpg",
-    "https://mangayabu.top/mangas2/eleceed/capitulo-155/07.jpg",
-    "https://mangayabu.top/mangas2/eleceed/capitulo-155/08.jpg",
-    "https://mangayabu.top/mangas2/eleceed/capitulo-155/09.jpg",
-    "https://mangayabu.top/mangas2/eleceed/capitulo-155/10.jpg",
-    "https://mangayabu.top/mangas2/eleceed/capitulo-155/11.jpg",
-    "https://mangayabu.top/mangas2/eleceed/capitulo-155/12.jpg",
-    "https://mangayabu.top/mangas2/eleceed/capitulo-155/13.jpg"
+    // "https://mangayabu.top/mangas2/eleceed/capitulo-155/02.jpg",
+    // "https://mangayabu.top/mangas2/eleceed/capitulo-155/03.jpg",
+    // "https://mangayabu.top/mangas2/eleceed/capitulo-155/04.jpg",
+    // "https://mangayabu.top/mangas2/eleceed/capitulo-155/05.jpg",
+    // "https://mangayabu.top/mangas2/eleceed/capitulo-155/06.jpg",
+    // "https://mangayabu.top/mangas2/eleceed/capitulo-155/07.jpg",
+    // "https://mangayabu.top/mangas2/eleceed/capitulo-155/08.jpg",
+    // "https://mangayabu.top/mangas2/eleceed/capitulo-155/09.jpg",
+    // "https://mangayabu.top/mangas2/eleceed/capitulo-155/10.jpg",
+    // "https://mangayabu.top/mangas2/eleceed/capitulo-155/11.jpg",
+    // "https://mangayabu.top/mangas2/eleceed/capitulo-155/12.jpg",
+    // "https://mangayabu.top/mangas2/eleceed/capitulo-155/13.jpg"
   ];
   PermissionStatus _permissionStatus = PermissionStatus.denied;
 
@@ -88,11 +90,6 @@ class _MyPageViewState extends State<MyPageView> {
         actions: [
           IconButton(
             onPressed: () {
-              // utilize url_launcher
-              // itemScrollController.scrollTo(
-              //   index: 1,
-              //   duration: const Duration(milliseconds: 300));
-              // screenBrightness.setScreenBrightness(0.0);
               screenBrightness.resetScreenBrightness();
               // ScrollController().animateTo(offset, duration: duration, curve: curve)
             },
@@ -101,21 +98,41 @@ class _MyPageViewState extends State<MyPageView> {
           )
         ],
       ),
-      body: ColorFiltered(
-        colorFilter: ColorFilter.mode(
-            Color.fromARGB(255, 216, 61, 203), BlendMode.color),
-        child: ScrollablePositionedList.builder(
-            itemScrollController: itemScrollController,
-            itemPositionsListener: itemPositionListener,
-            padding: const EdgeInsets.all(0),
-            // shrinkWrap: true,
-            itemCount: lista.length,
-            itemBuilder: (context, index) => IntrinsicHeight(
-                  child: Image.network(lista[index]),
-                )),
-      ),
+      body: TransformableListView.builder(
+          getTransformMatrix: getTransformMatrix,
+          controller: scrollController,
+          padding: const EdgeInsets.all(0),
+          // shrinkWrap: true,
+          itemCount: lista.length,
+          itemBuilder: (context, index) => IntrinsicHeight(
+                child: Image.network(lista[index]),
+              )),
     );
   }
+
+  Matrix4 getTransformMatrix(TransformableListItem item) {
+  /// final scale of child when the animation is completed
+  const endScaleBound = 0.3;
+
+  /// 0 when animation completed and [scale] == [endScaleBound]
+  /// 1 when animation starts and [scale] == 1
+  final animationProgress = item.visibleExtent / item.size.height;
+
+  /// result matrix
+  final paintTransform = Matrix4.identity();
+
+  /// animate only if item is on edge
+  // if (item.position != TransformableListItemPosition.middle) {
+  //   final scale = endScaleBound + ((1 - endScaleBound) * animationProgress);
+
+  //   paintTransform
+  //     ..translate(item.size.width / 2)
+  //     ..scale(scale)
+  //     ..translate(-item.size.width / 2);
+  // }
+
+  return paintTransform;
+}
   /*ListView.builder(
       itemCount: lista.length,
       cacheExtent: 10000.0,
