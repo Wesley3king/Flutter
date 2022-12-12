@@ -6,11 +6,12 @@ import 'package:test_number_one/app/pages/icons_config.dart';
 import 'package:test_number_one/app/pages/page_view.dart';
 import 'package:test_number_one/app/pages/pinch_zoom.dart';
 import 'package:test_number_one/app/pages/webview.dart';
-import 'package:test_number_one/app/pages/webview_flutter.dart';
 import 'package:test_number_one/app/pages/webviewx.dart';
+import 'package:test_number_one/app/pages/webviewx_demo.dart';
 import 'package:test_number_one/app/pages/zoom.dart';
 
 final routes = GoRouter(
+  initialLocation: '/webviewx',
   routes: [
     GoRoute(path: '/listpages', builder: (context, state) => const HomePage(),),
     GoRoute(path: '/alert', builder: (context, state) => const MyAlert(),),
@@ -21,5 +22,6 @@ final routes = GoRouter(
     GoRoute(path: '/web', builder: (context, state) => const WebViewTeste(),),
     GoRoute(path: '/web', builder: (context, state) => const MyWebviewx(),),
     GoRoute(path: '/bottom', builder: (context, state) => const BottomNavigationTeste(),),
+    GoRoute(path: '/webviewx', builder: (context, state) => const WebViewXPage(),),
   ],
 );
