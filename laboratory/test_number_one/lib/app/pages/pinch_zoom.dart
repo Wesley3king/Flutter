@@ -11,8 +11,8 @@ class _MyPinchZoomState extends State<MyPinchZoom> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8.0),
-      child: PinchZoomImage(),
+      padding: const EdgeInsets.all(8.0),
+      child: const PinchZoomImage(),
     );
   }
 }
