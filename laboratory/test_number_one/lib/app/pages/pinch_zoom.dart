@@ -112,7 +112,7 @@ class _PinchZoomImageState extends State<PinchZoomImage>
             child: buildImage());
       },
     );
-    final overlay = Overlay.of(context)!;
+    final overlay = Overlay.of(context);
     overlay.insert(entry!);
   }
 }

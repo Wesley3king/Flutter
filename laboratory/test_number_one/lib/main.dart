@@ -1,4 +1,5 @@
 // import 'package:dio/dio.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 
@@ -8,6 +9,27 @@ import 'config_hive/hive_config.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await HiveConfig.start();
+  AwesomeNotifications().initialize(
+  // set the icon to null if you want to use the default app icon
+  // 'resource://drawable/res_app_icon',
+  null,
+  [
+    NotificationChannel(
+        channelGroupKey: 'progress_bar',
+        channelKey: 'progress_bar',
+        channelName: 'Progress notifications',
+        channelDescription: 'Notification channel for tests',
+        defaultColor: const Color(0xFF9D50DD),
+        ledColor: Colors.white)
+  ],
+  // Channel groups are only visual and are not required
+  channelGroups: [
+    NotificationChannelGroup(
+        channelGroupKey: 'progress_bar',
+        channelGroupName: 'Basic group')
+  ],
+  debug: true
+);
   runApp(const MyApp());
 }
 

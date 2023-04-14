@@ -11,8 +11,10 @@ import 'package:test_number_one/app/pages/webviewx.dart';
 import 'package:test_number_one/app/pages/webviewx_demo.dart';
 import 'package:test_number_one/app/pages/zoom.dart';
 
+import '../app/pages/awesome_notification.dart';
+
 final routes = GoRouter(
-  initialLocation: '/notification',
+  initialLocation: '/awesomenotification',
   routes: [
     GoRoute(path: '/listpages', builder: (context, state) => const HomePage(),),
     GoRoute(path: '/alert', builder: (context, state) => const MyAlert(),),
@@ -24,6 +26,7 @@ final routes = GoRouter(
     GoRoute(path: '/web', builder: (context, state) => const MyWebviewx(),),
     GoRoute(path: '/bottom', builder: (context, state) => const BottomNavigationTeste(),),
     GoRoute(path: '/webviewx', builder: (context, state) => const WebViewXPage(),),
-    GoRoute(path: '/notification', builder: (context, state) => const MyNotification(),)
+    GoRoute(path: '/notification', builder: (context, state) => const MyNotification(),),
+    GoRoute(path: '/awesomenotification', builder: (context, state) => const MyAwesomeNotification(),)
   ],
 );
